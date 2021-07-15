@@ -4,3 +4,4 @@ This material is based upon work supported by the NSF under Grant No. DBI-154829
 Disclaimer:  Any opinions, findings and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation. 
 
 SEM_A and SEM_B are scanning electron microscope images of drosophilia eyes (53 images in each file).
+OreoWT_jpeg are 17 images of drosophilia eyes captured with an iPhone through a stereo disection microscope.
