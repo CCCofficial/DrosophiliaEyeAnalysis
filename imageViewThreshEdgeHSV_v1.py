@@ -16,6 +16,7 @@ import numpy as np
 image1=r'C:\Users\ThomasZimmerman\Pictures\CCC_Riggs\iPhone\OreoWT_jpeg\IMG_4818.jpg' # image location
 
 SCALE=(320,240)     # display resolution
+SCALE=(640,480)     # display resolution
 
 # keyboard variable setup and initial values
 keyState=0;
@@ -61,7 +62,20 @@ def title():
     print('k kernal size')    
     print('T threshold for adaptive')
     print('q to quit program')
-    
+
+def iKernal(im,k): # integrate kernal
+    print('doing kim')
+    (yRez,xRez)=im.shape
+    kim=np.zeros((yRez,xRez),dtype='uint8')
+    scale=(k*k); skip=10
+    for x in range(0,xRez-k,skip):
+        for y in range(0,yRez-k,skip):
+            acc=np.sum(im[y:y+k,x:x+k])
+            normAcc=np.clip(int(acc/scale),0,255)
+            #print(acc,normAcc)
+            kim[y,x]=int(acc)
+    return(kim)
+
 ################################ MAIN ##########################################
 title()                         # display instructions
 rawColorIM=cv2.imread(image1)   # read in color image
@@ -94,12 +108,16 @@ while(run):
     ret,th3 = cv2.threshold(rawIM,thresh,255,cv2.THRESH_TOZERO_INV)
     cv2.imshow('THRESH_TOZERO_INV',cv2.resize(th3,SCALE))
 
-    th4 = cv2.adaptiveThreshold(rawIM,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,kernalSize,threshAdapt)
+    th4 = cv2.adaptiveThreshold(rawIM,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY_INV,kernalSize,threshAdapt)
     cv2.imshow('ADAPTIVE_THRESH_MEAN',cv2.resize(th4,SCALE))
 
-    th5 = cv2.adaptiveThreshold(rawIM,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,kernalSize,threshAdapt)
+    th5 = cv2.adaptiveThreshold(rawIM,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,kernalSize,threshAdapt)
     cv2.imshow('ADAPTIVE_THRESH_GAUSSIAN',cv2.resize(th5,SCALE))
 
+    #kim=iKernal(th5,100) # integrate kernal 
+    #cv2.imshow('KIM_GAUSS',cv2.resize(kim,SCALE))
+
+    cv2.imshow('Blur',cv2.resize(cv2.blur(th5,(110,110)),SCALE))
     cv2.imshow('Original Color',cv2.resize(rawColorIM,SCALE))
     cv2.imshow('Original Gray',cv2.resize(rawIM,SCALE))
 
